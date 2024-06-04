@@ -1,0 +1,81 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: argo
+spec:
+  project: default
+  source:
+    repoURL: https://okestrolab@bitbucket.org/okestrolab/cmp-helm.git
+    targetRevision: develop
+    path: mdware-helm/charts/grafana
+    # helm specific config
+    #chart: redis  # Set this when pulling directly from a Helm repo. DO NOT set for git-hosted Helm charts.
+    helm:
+      passCredentials: false # If true then adds --pass-credentials to Helm commands to pass credentials to all domains
+      # Extra parameters to set (same as setting through values.yaml, but these take precedence)
+      parameters:
+      - name: global.storageClass
+        value: cmp
+      - name: admin.user
+        value: admin
+      - name: admin.password
+        value: okestro2018
+      - name: service.type
+        value: NodePort
+      - name: service.nodePorts.grafana
+        value: '30008'
+      - name: metrics.enabled
+        value: 'true'
+      - name: smtp.enabled
+        value: 'true'
+     # Need-To: kubectl apply -f charts/grafana/extra/grafana-pvc.yaml
+      - name: persistence.existingClaim
+        value: 'portal-grafana'
+     # Need-To: kubectl apply -f charts/grafana/extra/grafana-config.yaml
+     # To-do: postgre DB Option Develop
+      #- name: config.useGrafanaIniFile
+      #  value: 'true'
+      #- name: config.grafanaIniConfigMap
+      #  value: grafana-config
+     # Option is Unstable
+      #- name: plugins
+      #  value: 'grafana-worldmap-panel,yesoreyeram-infinity-datasource'
+      - name: grafana.replicaCount
+        value: '3'
+      # # Use the contents of files as parameters (uses Helm's --set-file)
+      # fileParameters:
+      # - name: config
+      #   path: files/config.json
+
+      # Release name override (defaults to application name)
+      releaseName: portal
+
+      # Helm values files for overriding values in the helm chart
+      # The path is relative to the spec.source.path directory defined above
+      valueFiles:
+      - values.yaml
+        #- values-prod.yaml
+
+      # # Values file as block file
+      # values: |
+      #   ingress:
+      #     enabled: true
+      #     path: /
+      #     hosts:
+      #       - mydomain.example.com
+      #     annotations:
+      #       kubernetes.io/ingress.class: nginx
+      #       kubernetes.io/tls-acme: "true"
+      #     labels: {}
+      #     tls:
+      #       - secretName: mydomain-tls
+      #         hosts:
+      #           - mydomain.example.com
+
+      # Optional Helm version to template with. If omitted it will fall back to look at the 'apiVersion' in Chart.yaml
+      # and decide which Helm binary to use automatically. This field can be either 'v2' or 'v3'.
+      version: v3
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: grafana
