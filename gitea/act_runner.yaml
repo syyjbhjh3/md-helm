@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitea-runner
+  namespace: gitea
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gitea-runner
+  template:
+    metadata:
+      labels:
+        app: gitea-runner
+    spec:
+      containers:
+        - name: gitea-runner
+          image: gitea/act_runner:latest
+          env:
+            - name: RUNNER_NAME
+              value: my-runner  # Gitea 서버에서 설정한 러너 이름
+            - name: RUNNER_TOKEN
+              value: M5pDbmB6vZjjf359HjxN55qNGnSuTyJFI2ZXouPh  # Gitea 서버에서 생성한 러너 등록 토큰
+            - name: RUNNER_URL
+              value: http://172.10.40.243:31080  # Gitea 서버 URL
+            - name: RUNNER_GROUP
+              value: default  # Gitea 서버에서 설정한 러너 그룹 (선택 사항)
