@@ -1,0 +1,29 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8sservicevalidation
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sServiceValidation
+      validation:
+        openAPIV3Schema:
+          properties:
+            serviceSelector:
+              type: object
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8sservicevalidation
+
+        violation[{"msg": msg}] {
+          input.review.kind.kind == "VirtualService"
+          destination := input.review.spec.http[_].route[_].destination.host
+          not k8sservice.exists(destination)
+          msg := sprintf("Service %v does not exist in the cluster", [destination])
+        }
+
+        k8sservice.exists(service) {
+          count(data.inventory.service[service]) > 0
+        }

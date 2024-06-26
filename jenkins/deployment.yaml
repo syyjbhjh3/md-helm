@@ -34,7 +34,9 @@ spec:
         - mountPath: /var/jenkins_home
           name: jenkins-vol
         - mountPath: /var/run
-          name: shared
+          name: share
+        - mountPath: /var/lib/docker
+          name: docker-graph-storaged
         - mountPath: /var/logs
           name: jenkins-log
       - image: ssis.harbor.com/library/docker:dind
@@ -45,6 +47,8 @@ spec:
         volumeMounts:
         - mountPath: /var/run
           name: shared
+        - mountPath: /var/lib/docker
+          name: docker-graph-storage
         - mountPath: /etc/docker
           name: docker-config
       dnsPolicy: ClusterFirst
