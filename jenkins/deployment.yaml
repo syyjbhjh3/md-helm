@@ -20,6 +20,7 @@ spec:
       - image: jenkins/jenkins:lts-docker
         imagePullPolicy: IfNotPresent
         name: jenkins
+        command: ['sh', '-c', 'echo "$MASTER_NODE_IP_ADDRESS $IMG_REPO" >> /etc/hosts']
         ports:
         - containerPort: 8080
           name: http
