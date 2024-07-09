@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-deployment
+  namespace: jenkins
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: jenkins
+    spec:
+      containers:
+      - image: jenkins/jenkins:lts
+        imagePullPolicy: IfNotPresent
+        command: ['sh', '-c', 'echo "$MASTER_NODE_IP_ADDRESS $IMG_REPO" >> /etc/hosts']
+        name: jenkins
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 50000
+          name: jnlp
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/jenkins_home
+          name: jenkins-vol
+        - mountPath: /var/run
+          name: shared
+        - mountPath: /var/logs
+          name: jenkins-log
+      - image: msa.harbor.com/library/docker:dind
+        imagePullPolicy: IfNotPresent
+        name: docker
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - mountPath: /var/run
+          name: shared
+        - mountPath: /etc/docker
+          name: docker-config
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        runAsUser: 0
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: jenkins-vol
+        persistentVolumeClaim:
+          claimName: jenkins-pvc
+      - hostPath:
+          path: /usr/share/zoneinfo/Asia/Seoul
+          type: ""
+        name: timezone-seoul
+      - name: jenkins-log
+        persistentVolumeClaim:
+          claimName: jenkins-log-pvc
+      - name: shared
+        emptyDir: {}
+      - name: docker-config
+        configMap:
+          name: docker-config
