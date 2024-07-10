@@ -1,0 +1,22 @@
+apiVersion: v1
+entries:
+  gitlab:
+  - apiVersion: v1
+    appVersion: v16.9.2
+    created: "2024-07-10T04:56:51.250192177Z"
+    description: GitLab is the most comprehensive AI-powered DevSecOps Platform.
+    digest: 16ae91fc7105e42a327cdb792c83cf005d22aa82102d82a0dd92ba4fd1a71370
+    home: https://about.gitlab.com/
+    icon: https://gitlab.com/gitlab-com/gitlab-artwork/raw/master/logo/logo-square.png
+    keywords:
+    - gitlab
+    maintainers:
+    - email: support@gitlab.com
+      name: GitLab Inc.
+    name: gitlab
+    sources:
+    - https://gitlab.com/gitlab-org/charts/gitlab
+    urls:
+    - gitlab-7.9.2.tgz
+    version: 7.9.2
+generated: "2024-07-10T04:56:51.248291667Z"
