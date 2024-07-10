@@ -35,9 +35,11 @@ spec:
         - mountPath: /var/jenkins_home
           name: jenkins-vol
         - mountPath: /var/run
-          name: shared
+          name: docker-socket
         - mountPath: /var/logs
           name: jenkins-log
+        - mountPath: /home/docker/bin
+          name: docker-bin
       - image: msa.harbor.com/library/docker:dind
         imagePullPolicy: IfNotPresent
         name: docker
@@ -45,9 +47,11 @@ spec:
           privileged: true
         volumeMounts:
         - mountPath: /var/run
-          name: shared
+          name: docker-socket
         - mountPath: /etc/docker
           name: docker-config
+        - mountPath: /usr/local/bin
+          name: docker-bin
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -65,7 +69,9 @@ spec:
       - name: jenkins-log
         persistentVolumeClaim:
           claimName: jenkins-log-pvc
-      - name: shared
+      - name: docker-socket
+        emptyDir: {}
+      - name: docker-bin
         emptyDir: {}
       - name: docker-config
         configMap:
