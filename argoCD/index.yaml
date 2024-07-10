@@ -31,8 +31,7 @@ entries:
       url: https://argoproj.github.io/
     name: argo-cd
     sources:
-    - https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
-    - https://github.com/argoproj/argo-cd
+    - https://github.com/syyjbhjh3/md-helm/tree/release
     urls:
     - argo-cd-6.7.2.tgz
     version: 6.7.2

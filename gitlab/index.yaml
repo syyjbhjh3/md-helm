@@ -15,7 +15,7 @@ entries:
       name: GitLab Inc.
     name: gitlab
     sources:
-    - https://gitlab.com/gitlab-org/charts/gitlab
+    - https://github.com/syyjbhjh3/md-helm/tree/release
     urls:
     - gitlab-7.9.2.tgz
     version: 7.9.2

@@ -46,7 +46,7 @@ entries:
       name: timja
     name: jenkins
     sources:
-    - https://github.com/jenkinsci/jenkins
+    - https://github.com/syyjbhjh3/md-helm/tree/release
     - https://github.com/jenkinsci/docker-inbound-agent
     - https://github.com/maorfr/kube-tasks
     - https://github.com/jenkinsci/configuration-as-code-plugin
@@ -54,4 +54,58 @@ entries:
     urls:
     - jenkins-5.1.0.tgz
     version: 5.1.0
+  gitlab:
+  - apiVersion: v1
+    appVersion: v16.9.2
+    created: "2024-07-10T04:56:51.250192177Z"
+    description: GitLab is the most comprehensive AI-powered DevSecOps Platform.
+    digest: 16ae91fc7105e42a327cdb792c83cf005d22aa82102d82a0dd92ba4fd1a71370
+    home: https://about.gitlab.com/
+    icon: https://gitlab.com/gitlab-com/gitlab-artwork/raw/master/logo/logo-square.png
+    keywords:
+    - gitlab
+    maintainers:
+    - email: support@gitlab.com
+      name: GitLab Inc.
+    name: gitlab
+    sources:
+    - https://github.com/syyjbhjh3/md-helm/tree/release
+    urls:
+    - gitlab-7.9.2.tgz
+    version: 7.9.2
+  argo-cd:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Bump argo-cd to v2.10.3
+      artifacthub.io/signKey: |
+        fingerprint: 2B8F22F57260EFA67BE1C5824B11F800CD9D2252
+        url: https://argoproj.github.io/argo-helm/pgp_keys.asc
+    apiVersion: v2
+    appVersion: v2.10.3
+    created: "2024-07-10T04:57:20.659635737Z"
+    dependencies:
+    - condition: redis-ha.enabled
+      name: redis-ha
+      repository: https://dandydeveloper.github.io/charts/
+      version: 4.26.1
+    description: A Helm chart for Argo CD, a declarative, GitOps continuous delivery
+      tool for Kubernetes.
+    digest: 3c0ee0f4addd6e932649c9b38207615de0f1fbca1794d89ae1105997d5ec11a1
+    home: https://github.com/argoproj/argo-helm
+    icon: https://argo-cd.readthedocs.io/en/stable/assets/logo.png
+    keywords:
+    - argoproj
+    - argocd
+    - gitops
+    kubeVersion: '>=1.23.0-0'
+    maintainers:
+    - name: argoproj
+      url: https://argoproj.github.io/
+    name: argo-cd
+    sources:
+    - https://github.com/syyjbhjh3/md-helm/tree/release
+    urls:
+    - argo-cd-6.7.2.tgz
+    version: 6.7.2
 generated: "2024-07-09T10:49:39.405062732Z"
