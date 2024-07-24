@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  namespace: jenkins
+  namespace: {{ .Release.Namespace }}
   name: jenkins
 
 ---
@@ -13,7 +13,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: jenkins
-  namespace: jenkins
+  namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -28,7 +28,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: default
-  namespace: jenkins
+  namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole

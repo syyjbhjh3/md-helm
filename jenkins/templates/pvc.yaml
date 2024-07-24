@@ -4,7 +4,7 @@ metadata:
   labels:
     app: jenkins
   name: jenkins-pvc
-  namespace: jenkins
+  namespace: {{ .Release.Namespace }}
 spec:
   storageClassName: msa
   accessModes:
@@ -19,7 +19,7 @@ metadata:
   labels:
     app: jenkins
   name: jenkins-log-pvc
-  namespace: jenkins
+  namespace: {{ .Release.Namespace }}
 spec:
   storageClassName: msa
   accessModes:

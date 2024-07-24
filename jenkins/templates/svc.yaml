@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: jenkins-service
-  namespace: jenkins
+  namespace: {{ .Release.Namespace }}
   labels:
     app: jenkins
 spec:
@@ -23,7 +23,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: jenkins-service-jnlp
-  namespace: jenkins
+  namespace: {{ .Release.Namespace }}
   labels:
     app: jenkins
 spec:
